@@ -5,6 +5,7 @@ SELECT *
 FROM sales
 
 ------ Standarize date format
+
 DROP COLUMN IF EXISTS order_date, year
 
 ALTER TABLE sales
@@ -18,7 +19,7 @@ SET year = strftime('%Y', OrderDate)
 SELECT order_date, OrderDate
 FROM sales 
 
------- Split Address column (state, zipcode)
+------ Split Address column (state, zipcode, street)
 
 ALTER TABLE sales
 ADD state varchar(255)
@@ -30,7 +31,7 @@ SET state = substr(PurchaseAddress, -8,2)
 SET zipcode = substr(PurchaseAddress, -5)
 SET street = substr(PurchaseAddress, 1, instr(PurchaseAddress,',')-1)
 
-SELECT street, City, state, zipcode
+SELECT state, zipcode, street
 FROM sales
  
 ------ Checking for duplicates entries
